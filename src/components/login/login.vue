@@ -7,7 +7,7 @@
       <div class="success" v-if="yes">
         <div class="successLogo">
           <img src="../../assets/success.png" alt="success" class="logo" />
-          <p class="successText">login</p>
+          <p class="successText">login successfull!!</p>
         </div>
       </div>
       <div class="inputContainer">
@@ -26,7 +26,7 @@
         <button class="login" @click="login">login</button>
       </div>
       <div class="resetbuttonContainer">
-        <span class="signup">signup</span
+        <span class="signup" @click="signup">signup</span
         ><span class="forget">forget password</span>
       </div>
     </div>
@@ -37,7 +37,7 @@
       <div class="success" v-if="yes">
         <div class="successLogo">
           <img src="../../assets/success.png" alt="success" class="logo" />
-          <p class="successText">login</p>
+          <p class="successText">login successfull!!</p>
         </div>
       </div>
       <div class="inputContainer">
@@ -56,7 +56,7 @@
         <button class="login" @click="login">login</button>
       </div>
       <div class="resetbuttonContainer">
-        <span class="signup">signup</span
+        <span class="signup" @click="signup">signup</span
         ><span class="forget">forget password</span>
       </div>
     </div>
@@ -73,6 +73,11 @@ export default {
     };
   },
   methods: {
+    signup() {
+      this.$router.push({
+        path: "/signup",
+      });
+    },
     show() {
       var password = document.getElementById("password");
       if (password.type === "password") {
