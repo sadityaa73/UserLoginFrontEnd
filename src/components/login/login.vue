@@ -1,6 +1,15 @@
 <template>
   <div class="mainContainer">
     <div class="innerContainer">
+      <div class="loading" v-if="loading">
+        <b-spinner variant="success"></b-spinner>
+      </div>
+      <div class="success" v-if="yes">
+        <div class="successLogo">
+          <img src="../../assets/success.png" alt="success" class="logo" />
+          <p class="successText">login</p>
+        </div>
+      </div>
       <div class="inputContainer">
         <input type="text" placeholder="username" class="userInput" />
         <input
@@ -14,7 +23,7 @@
         >
       </div>
       <div class="buttonContainer">
-        <button class="login">login</button>
+        <button class="login" @click="login">login</button>
       </div>
       <div class="resetbuttonContainer">
         <span class="signup">signup</span
@@ -22,6 +31,15 @@
       </div>
     </div>
     <div class="MobileInnerContainer">
+      <div class="loading" v-if="loading">
+        <b-spinner variant="success"></b-spinner>
+      </div>
+      <div class="success" v-if="yes">
+        <div class="successLogo">
+          <img src="../../assets/success.png" alt="success" class="logo" />
+          <p class="successText">login</p>
+        </div>
+      </div>
       <div class="inputContainer">
         <input type="text" placeholder="username" class="userInput" />
         <input
@@ -35,7 +53,7 @@
         >
       </div>
       <div class="buttonContainer">
-        <button class="login">login</button>
+        <button class="login" @click="login">login</button>
       </div>
       <div class="resetbuttonContainer">
         <span class="signup">signup</span
@@ -49,7 +67,10 @@ export default {
   name: "login",
   components: {},
   data() {
-    return {};
+    return {
+      yes: false,
+      loading: false,
+    };
   },
   methods: {
     show() {
@@ -59,6 +80,16 @@ export default {
       } else {
         password.type = "password";
       }
+    },
+    login() {
+      this.loading = true;
+      setTimeout(() => {
+        this.loading = !true;
+        this.yes = true;
+        setTimeout(() => {
+          this.yes = !true;
+        }, 1500);
+      }, 2000);
     },
   },
 };
@@ -73,11 +104,83 @@ export default {
   height: 100vh;
   background-image: url("../../assets/backgroundImage.jpg");
 }
+.loading {
+  position: absolute;
+  background-color: #332f2fc4;
+  width: inherit;
+  height: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+}
+
+.spinner-border {
+  --bs-spinner-width: 4rem;
+  --bs-spinner-height: 4rem;
+  --bs-spinner-vertical-align: 39.875em;
+  --bs-spinner-border-width: 0.25em;
+  --bs-spinner-animation-speed: 0.75s;
+  --bs-spinner-animation-name: spinner-border;
+  border: var(--bs-spinner-border-width) solid currentcolor;
+  border-right-color: rebeccapurple;
+  border-left-color: red;
+  border-top-color: green;
+  border-bottom-color: yellow;
+}
+.success {
+  display: flex;
+  border: 1px solid black;
+  width: 32%;
+  height: 39%;
+  position: absolute;
+  border-radius: 27px;
+  z-index: 1;
+  background-color: #030303c9;
+  animation-name: successLogo;
+  animation-duration: 2s;
+}
+.successLogo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.logo {
+  width: 25%;
+}
+.successText {
+  color: white;
+  font-size: 32px;
+  font-family: helevetica;
+}
+@keyframes successLogo {
+  0% {
+    left: 34%;
+    bottom: 0%;
+  }
+  50% {
+    left: 34%;
+    bottom: 29.2%;
+  }
+  55% {
+    left: 34%;
+    bottom: 29.2%;
+  }
+  60% {
+    left: 34%;
+    bottom: 29.2%;
+  }
+  100% {
+    left: 34%;
+    bottom: 0%;
+  }
+}
 .innerContainer {
   display: flex;
   border: 1px solid black;
   border-radius: 14px;
-  width: 50%;
+  width: 40%;
   height: 50%;
   flex-direction: column;
   justify-content: center;
@@ -139,13 +242,13 @@ export default {
 }
 .login:hover {
   width: 45%;
-  transform: width 0.2s;
+  transition: width 0.4s;
   border: none;
   box-shadow: 0px 0px 64px 17px #418058;
 }
 .login:active {
-  width: 45%;
-  transform: width 0.2s;
+  width: 48%;
+  transition: width 0.2s;
   border: none;
   color: white;
   background-color: green;
