@@ -27,7 +27,7 @@
       </div>
       <div class="resetbuttonContainer">
         <span class="signup" @click="signup">signup</span
-        ><span class="forget">forget password</span>
+        ><span class="forget" @click="reset">forget password</span>
       </div>
     </div>
     <div class="MobileInnerContainer">
@@ -57,7 +57,7 @@
       </div>
       <div class="resetbuttonContainer">
         <span class="signup" @click="signup">signup</span
-        ><span class="forget">forget password</span>
+        ><span class="forget" @click="reset">forget password</span>
       </div>
     </div>
   </div>
@@ -76,6 +76,11 @@ export default {
     signup() {
       this.$router.push({
         path: "/signup",
+      });
+    },
+    reset() {
+      this.$router.push({
+        path: "/resetPassword",
       });
     },
     show() {
