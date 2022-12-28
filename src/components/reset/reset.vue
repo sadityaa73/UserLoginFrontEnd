@@ -11,25 +11,32 @@
         </div>
       </div>
       <div class="inputContainer">
-        <input type="text" placeholder="username" class="userInput" />
+        <input
+          type="text"
+          placeholder="username"
+          class="userInput"
+          v-model="username"
+        />
         <input
           type="password"
           placeholder="password"
           id="password"
           class="userInput"
+          v-model="password"
         />
         <input
           type="password"
           placeholder="re-enter new password"
           id="password"
           class="userInput"
+          v-model="newPassword"
         />
         <span class="checkbox"
           ><input type="checkbox" @click="show" />show Password</span
         >
       </div>
       <div class="buttonContainer">
-        <button class="login" @click="login">reset password</button>
+        <button class="login" @click="resetPassword">reset password</button>
       </div>
     </div>
     <div class="MobileInnerContainer">
@@ -43,30 +50,38 @@
         </div>
       </div>
       <div class="inputContainer">
-        <input type="text" placeholder="username" class="userInput" />
+        <input
+          type="text"
+          placeholder="username"
+          class="userInput"
+          v-model="username"
+        />
         <input
           type="password"
           placeholder="password"
           id="password"
           class="userInput"
+          v-model="password"
         />
         <input
           type="password"
           placeholder="re-enter new password"
           id="password"
           class="userInput"
+          v-model="newPassword"
         />
         <span class="checkbox"
           ><input type="checkbox" @click="show" />show Password</span
         >
       </div>
       <div class="buttonContainer">
-        <button class="login" @click="login">reset password</button>
+        <button class="login" @click="resetPassword">reset password</button>
       </div>
     </div>
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "login",
   components: {},
@@ -74,6 +89,10 @@ export default {
     return {
       yes: false,
       loading: false,
+      username: "",
+      password: "",
+      newPassword: "",
+      user: [],
     };
   },
   methods: {
@@ -90,8 +109,25 @@ export default {
         password.type = "password";
       }
     },
-    login() {
+    async resetPassword() {
+      debugger;
       this.loading = true;
+      let username = this.username;
+      let response = await axios.get(
+        `http://localhost:4000/api/signup/finduserprofilebyid/${username}`
+      );
+      let data = response.data;
+      this.user.push(data);
+      console.log(response.data);
+      if (this.user.length > 0) {
+        let post = { _id: this.user[0]._id, password: this.password };
+        console.log(_id, password);
+        let response = await axios.patch(
+          "http://localhost:4000/api/signup/updateuserpassword",
+          post
+        );
+        let data = response.data;
+      }
       setTimeout(() => {
         this.loading = !true;
         this.yes = true;

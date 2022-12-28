@@ -11,16 +11,48 @@
         </div>
       </div>
       <div class="inputContainer">
-        <input type="text" placeholder="firstname" class="userInput" />
-        <input type="text" placeholder="lastname" class="userInput" />
-        <input type="text" placeholder="mobile" class="userInput" />
-        <input type="text" placeholder="email" class="userInput" />
-        <input type="text" placeholder="password" class="userInput" />
+        <input
+          type="text"
+          placeholder="firstname"
+          class="userInput"
+          v-model="firstname"
+        />
+        <input
+          type="text"
+          placeholder="lastname"
+          class="userInput"
+          v-model="lastname"
+        />
+        <input
+          type="text"
+          placeholder="mobile"
+          class="userInput"
+          v-model="mobile"
+        />
+        <input
+          type="text"
+          placeholder="email"
+          class="userInput"
+          v-model="email"
+        />
+        <input
+          type="text"
+          placeholder="username"
+          class="userInput"
+          v-model="username"
+        />
+        <input
+          type="password"
+          placeholder="password"
+          class="userInput"
+          v-model="password"
+        />
         <input
           type="password"
           placeholder="re-enter password"
           id="password"
           class="userInput"
+          v-model="newPassword"
         />
         <span class="checkbox"
           ><input type="checkbox" @click="show" />show Password</span
@@ -41,16 +73,48 @@
         </div>
       </div>
       <div class="inputContainer">
-        <input type="text" placeholder="firstname" class="userInput" />
-        <input type="text" placeholder="lastname" class="userInput" />
-        <input type="text" placeholder="mobile" class="userInput" />
-        <input type="text" placeholder="email" class="userInput" />
-        <input type="text" placeholder="password" class="userInput" />
+        <input
+          type="text"
+          placeholder="firstname"
+          class="userInput"
+          v-model="firstname"
+        />
+        <input
+          type="text"
+          placeholder="lastname"
+          class="userInput"
+          v-model="lastname"
+        />
+        <input
+          type="text"
+          placeholder="mobile"
+          class="userInput"
+          v-model="mobile"
+        />
+        <input
+          type="text"
+          placeholder="email"
+          class="userInput"
+          v-model="email"
+        />
+        <input
+          type="text"
+          placeholder="username"
+          class="userInput"
+          v-model="username"
+        />
         <input
           type="password"
           placeholder="password"
+          class="userInput"
+          v-model="password"
+        />
+        <input
+          type="password"
+          placeholder="re-enter password"
           id="password"
           class="userInput"
+          v-model="newPassword"
         />
         <span class="checkbox"
           ><input type="checkbox" @click="show" />show Password</span
@@ -63,6 +127,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "signup",
   components: {},
@@ -70,6 +135,14 @@ export default {
     return {
       yes: false,
       loading: false,
+      firstname: "",
+      lastname: "",
+      mobile: "",
+      email: "",
+      username: "",
+      password: "",
+      newPassword: "",
+      count: 0,
     };
   },
   methods: {
@@ -81,15 +154,73 @@ export default {
         password.type = "password";
       }
     },
-    login() {
+    async login() {
+      debugger;
+      this.checkInputs(this.count);
+      if (this.count != 0) {
+        this.count = 0;
+        return;
+      }
       this.loading = true;
+      let post = {
+        firstname: this.firstname,
+        lastname: this.lastname,
+        mobile: this.mobile,
+        email: this.email,
+        username: this.username,
+        password: this.password,
+      };
+      let response = await axios.post(
+        "http://localhost:4000/api/signup/postusersignupdetails",
+        post
+      );
+      let postResponse = response.data;
+      if (response.status === 500) {
+        this.loading = !true;
+        return;
+      }
       setTimeout(() => {
         this.loading = !true;
-        this.yes = true;
-        setTimeout(() => {
-          this.yes = !true;
-        }, 1500);
       }, 2000);
+      this.yes = true;
+      setTimeout(() => {
+        this.yes = !true;
+        this.$router.push(
+          {
+            path: "/login",
+          },
+          3000
+        );
+      });
+    },
+    checkInputs(count) {
+      debugger;
+      if (this.firstname === "") {
+        count++;
+      }
+      if (this.lastname === " ") {
+        count++;
+      }
+
+      if (this.mobile === "") {
+        count++;
+      }
+
+      if (this.email === "") {
+        count++;
+      }
+
+      if (this.username === "") {
+        count++;
+      }
+
+      if (this.password === "") {
+        count++;
+      }
+      if (count != 0) {
+        return (this.count = 1);
+      }
+      return (this.count = 0);
     },
   },
 };
