@@ -11,12 +11,18 @@
         </div>
       </div>
       <div class="inputContainer">
-        <input type="text" placeholder="username" class="userInput" />
+        <input
+          type="text"
+          placeholder="username"
+          class="userInput"
+          v-model="username"
+        />
         <input
           type="password"
           placeholder="password"
           id="password"
           class="userInput"
+          v-model="password"
         />
         <span class="checkbox"
           ><input type="checkbox" @click="show" />show Password</span
@@ -41,12 +47,18 @@
         </div>
       </div>
       <div class="inputContainer">
-        <input type="text" placeholder="username" class="userInput" />
+        <input
+          type="text"
+          placeholder="username"
+          class="userInput"
+          v-model="username"
+        />
         <input
           type="password"
           placeholder="password"
           id="password"
           class="userInput"
+          v-model="password"
         />
         <span class="checkbox"
           ><input type="checkbox" @click="show" />show Password</span
@@ -63,6 +75,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "login",
   components: {},
@@ -70,6 +83,8 @@ export default {
     return {
       yes: false,
       loading: false,
+      username: "",
+      password: "",
     };
   },
   methods: {
@@ -91,8 +106,18 @@ export default {
         password.type = "password";
       }
     },
-    login() {
+    async login() {
+      debugger;
       this.loading = true;
+      let post = {
+        username: this.username,
+        password: this.password,
+      };
+      let response = await axios.post(
+        "http://localhost:4000/api/login/postlogindetails",
+        post
+      );
+      let data = response.data;
       setTimeout(() => {
         this.loading = !true;
         this.yes = true;
