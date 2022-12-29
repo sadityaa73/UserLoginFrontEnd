@@ -110,8 +110,8 @@ export default {
       }
     },
     async resetPassword() {
-      debugger;
       this.loading = true;
+      debugger;
       let username = this.username;
       let response = await axios.get(
         `http://localhost:4000/api/signup/finduserprofilebyid/${username}`
@@ -120,8 +120,13 @@ export default {
       this.user.push(data);
       console.log(response.data);
       if (this.user.length > 0) {
-        let post = { _id: this.user[0]._id, password: this.password };
-        console.log(_id, password);
+        // let _id = this.user[0]._id;
+        // let password = this.password;
+        let post = {
+          _id: this.user[0]._id,
+          password: this.password,
+        };
+        // console.log(_id, password);
         let response = await axios.patch(
           "http://localhost:4000/api/signup/updateuserpassword",
           post
