@@ -143,6 +143,7 @@ export default {
       password: "",
       newPassword: "",
       count: 0,
+      iscreated: false,
     };
   },
   methods: {
@@ -179,19 +180,14 @@ export default {
         this.loading = !true;
         return;
       }
-      setTimeout(() => {
-        this.loading = !true;
-      }, 2000);
+      this.loading = !true;
       this.yes = true;
       setTimeout(() => {
         this.yes = !true;
-        this.$router.push(
-          {
-            path: "/login",
-          },
-          3000
-        );
-      });
+        this.$router.push({
+          path: "/login",
+        });
+      }, 2000);
     },
     checkInputs(count) {
       debugger;
